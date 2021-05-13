@@ -96,15 +96,15 @@ func main() {
 	var buf []byte
 	var err error
 	if buf, err = os.ReadFile(conf_file); err != nil {
-		fmt.Printf("Failed to read config file: %s\n", conf_file)
+		fmt.Fprintf(os.Stderr, "Failed to read config file: %s\n", conf_file)
 		os.Exit(1)
 	}
 	if buf, err = updateConfigFromEnv(buf, prefix); err != nil {
-		fmt.Printf("Failed to update config from ENV: %s\n", err)
+		fmt.Fprintf(os.Stderr, "Failed to update config from ENV: %s\n", err)
 		os.Exit(1)
 	}
 	if err = os.WriteFile(conf_file, buf, 0644); err != nil {
-		fmt.Printf("Failed to write back config to file '%s': %s\n", conf_file, err)
+		fmt.Fprintf(os.Stderr, "Failed to write back config to file '%s': %s\n", conf_file, err)
 		os.Exit(1)
 	}
 }
