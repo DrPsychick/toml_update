@@ -39,10 +39,13 @@ docker run --rm --privileged \
 
 ### Release
 ```shell
+git tag -a v0.0.3 -m "Reviewed"
+git push origin v0.0.3
+
 docker run --rm --privileged \
   -v $PWD:/go/src/github.com/user/repo \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -w /go/src/github.com/user/repo \
-  -e GITHUB_TOKEN \
-  goreleaser/goreleaser release
+  -e GITHUB_TOKEN=XXX \
+  goreleaser/goreleaser release --rm-dist
 ```
