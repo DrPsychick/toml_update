@@ -8,25 +8,61 @@ import (
 	"strings"
 )
 
-func updateConfigFromEnv(conf []byte, pfx string) ([]byte, error) {
-	config, err := toml.Load(string(conf))
-	if err != nil {
-		return nil, err
-	}
-
+func getEnv(pfx string) map[string]string {
 	envs := make(map[string]string)
 	for _, e := range os.Environ() {
 		if !strings.HasPrefix(e, pfx) {
 			continue
 		}
 		// PFX_VARIABLE=section.sub.name="value"
-		parts := strings.SplitN(e, "=", 2)
+		parts := strings.SplitN(e, "=", 3)
+		if len(parts) < 3 {
+			continue
+		}
 
 		// trim quotes from the value
 		envs[parts[1]] = strings.Trim(parts[2], "\"")
 	}
+	return envs
+}
+
+func parseValue(in string) interface{} {
+	if i, err := strconv.ParseInt(in, 10, 64); err == nil {
+		return i
+	}
+	if f, err := strconv.ParseFloat(in, 64); err == nil {
+		return f
+	}
+	if b, err := strconv.ParseBool(in); err == nil {
+		return b
+	}
+	if strings.HasPrefix(in, "[") {
+		// ["foo", "bar"] - we have to remove the quotes or they will be escaped and included
+		values := strings.Trim(in, "[]")
+		if values == "" {
+			return []string{}
+		}
+
+		list := strings.Split(values, ",")
+		for i, v := range list {
+			// trim quotes and spaces from each element
+			list[i] = strings.Trim(v, "\" ")
+		}
+		return list
+	}
+
+	return string(in)
+}
+
+func updateConfigFromEnv(conf []byte, pfx string) ([]byte, error) {
+	config, err := toml.Load(string(conf))
+	if err != nil {
+		return nil, err
+	}
+
+	envs := getEnv(pfx)
 	if len(envs) == 0 {
-		return nil, fmt.Errorf("No ENVs with prefix %s", pfx)
+		return nil, fmt.Errorf("No environment variables with prefix %s", pfx)
 	}
 
 	for k, v := range envs {
@@ -36,26 +72,7 @@ func updateConfigFromEnv(conf []byte, pfx string) ([]byte, error) {
 			v = strings.TrimLeft(v, "#")
 		}
 
-		// set value with correct type
-		var val interface{}
-		if i, err := strconv.ParseInt(v, 10, 64); err == nil {
-			val = i
-		} else if f, err := strconv.ParseFloat(v, 64); err == nil {
-			val = f
-		} else if b, err := strconv.ParseBool(v); err == nil {
-			val = b
-		} else if strings.HasPrefix(v, "[") {
-			// ["foo", "bar"] - we have to remove the quotes or they will be escaped and included
-			list := strings.Split(strings.Trim(v, "[]"), ",")
-			for i, v := range list {
-				// trim quotes and spaces from each element
-				list[i] = strings.Trim(v, "\" ")
-			}
-			val = list
-		} else {
-			// default is string with quotes
-			val = v
-		}
+		val := parseValue(v)
 
 		if withComment {
 			config.SetWithComment(k, "", true, val)
