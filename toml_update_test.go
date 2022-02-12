@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"testing"
 
@@ -36,7 +35,7 @@ func TestSimpleEnv(t *testing.T) {
 
 	got := getEnv("PFX")
 
-	require.Len(t, got, 2, "Environment variables must be skipped")
+	require.Len(t, got, 2, "2 environment variables must be found")
 	assert.Equal(t, "bar", got["foo.bar"])
 	assert.Equal(t, "", got["bar"])
 }
@@ -100,10 +99,22 @@ func TestParseString(t *testing.T) {
 
 func TestConfNoEnv(t *testing.T) {
 	os.Clearenv()
-	config := []byte(fmt.Sprintf("\n[section]\n  key = \"value\"\n"))
+	config := []byte("\n[section]\n  key = \"value\"\n")
 	_, err := updateConfigFromEnv(config, "PFX")
 
-	assert.NotNil(t, err)
+	assert.Error(t, err)
+}
+
+func TestConfEmptySection(t *testing.T) {
+	os.Clearenv()
+	os.Setenv("PFX_Test", "foo.bar=#no config")
+
+	config := []byte("\n[section]\n  key = \"value\"\n")
+	got, err := updateConfigFromEnv(config, "PFX")
+
+	assert.NoError(t, err)
+	assert.Contains(t, string(got), "[foo]")
+	assert.Contains(t, string(got), "# bar = \"no config\"")
 }
 
 func TestUpdateConf(t *testing.T) {
@@ -113,7 +124,7 @@ func TestUpdateConf(t *testing.T) {
 
 	got, err := updateConfigFromEnv(config, "PFX")
 
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 	assert.Equal(t, string(config), string(got))
 }
 
@@ -129,6 +140,6 @@ func TestComplexConfig(t *testing.T) {
 
 	got, err := updateConfigFromEnv(config, "PFX")
 
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 	assert.Equal(t, string(config), string(got))
 }
