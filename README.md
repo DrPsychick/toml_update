@@ -1,3 +1,15 @@
+[![CircleCI](https://img.shields.io/circleci/build/github/DrPsychick/toml_update)](https://app.circleci.com/pipelines/github/DrPsychick/toml_update)
+[![license](https://img.shields.io/github/license/drpsychick/toml_update.svg)](https://github.com/drpsychick/toml_update/blob/master/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/drpsychick/toml_update.svg)](https://github.com/drpsychick/toml_update)
+[![Contributors](https://img.shields.io/github/contributors/drpsychick/toml_update.svg)](https://github.com/drpsychick/toml_update/graphs/contributors)
+[![Paypal](https://img.shields.io/badge/donate-paypal-00457c.svg?logo=paypal)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FTXDN7LCDWUEA&source=url)
+[![GitHub Sponsor](https://img.shields.io/badge/github-sponsor-blue?logo=github)](https://github.com/sponsors/DrPsychick)
+
+[![GitHub issues](https://img.shields.io/github/issues/drpsychick/toml_update.svg)](https://github.com/drpsychick/toml_update/issues)
+[![GitHub closed issues](https://img.shields.io/github/issues-closed/drpsychick/toml_update.svg)](https://github.com/drpsychick/toml_update/issues?q=is%3Aissue+is%3Aclosed)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/drpsychick/toml_update.svg)](https://github.com/drpsychick/toml_update/pulls)
+[![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/drpsychick/toml_update.svg)](https://github.com/drpsychick/toml_update/pulls?q=is%3Apr+is%3Aclosed)
+
 # toml_update
 Update a toml configuration file from ENV variables
 
