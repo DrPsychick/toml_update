@@ -1,4 +1,5 @@
 [![CircleCI](https://img.shields.io/circleci/build/github/DrPsychick/toml_update)](https://app.circleci.com/pipelines/github/DrPsychick/toml_update)
+[![Coverage Status](https://coveralls.io/repos/github/DrPsychick/toml_update/badge.svg?branch=master)](https://coveralls.io/github/DrPsychick/toml_update?branch=master)
 [![license](https://img.shields.io/github/license/drpsychick/toml_update.svg)](https://github.com/drpsychick/toml_update/blob/master/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/drpsychick/toml_update.svg)](https://github.com/drpsychick/toml_update)
 [![Contributors](https://img.shields.io/github/contributors/drpsychick/toml_update.svg)](https://github.com/drpsychick/toml_update/graphs/contributors)
