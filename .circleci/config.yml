@@ -1,0 +1,56 @@
+# Required ENV variables
+# COVERALLS_TOKEN
+version: 2.1
+aliases:
+  - &parameters
+    golangci-lint_version:
+      default: v1.49.0 # github-releases:docker/buildx
+      type: string
+    goveralls_version:
+      default: v0.0.11 # github-releases:mattn/goveralls
+      type: string
+  - &golang
+    - image: golang
+  - &build
+    - checkout
+    - run:
+        name: Prepare
+        command: |
+          go mod download
+          go install github.com/mattn/goveralls@<< parameters.goveralls_version >>
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \
+            | sh -s -- -b $(go env GOPATH)/bin << parameters.golangci-lint_version >>
+    - run:
+        name: Test
+        command: |
+          golangci-lint run
+          go vet ./...
+          go test -race -gcflags=-l ./...
+          go test -gcflags=-l -covermode=count -coverprofile=profile.cov ./...
+          goveralls -coverprofile=profile.cov -service=circleci
+
+jobs:
+  build:
+    parameters: *parameters
+    docker: *golang
+    resource_class: small
+    steps: *build
+
+workflows:
+  version: 2
+  build-images:
+    jobs:
+      - build
+
+  # build 'latest' weekly
+  weekly:
+    triggers:
+      - schedule:
+          # mondays, 6:33 am, UTC
+          cron: "33 6 * * 1"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - build
