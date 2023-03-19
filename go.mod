@@ -3,7 +3,7 @@ module github.com/drpsychick/toml_update
 go 1.19
 
 require (
-	github.com/pelletier/go-toml v1.9.5
+	github.com/pelletier/go-toml/v2 v2.0.7
 	github.com/pelletier/go-toml/v2 v2.0.7
 	github.com/stretchr/testify v1.8.2
 )
