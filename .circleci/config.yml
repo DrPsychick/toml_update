@@ -7,7 +7,7 @@ aliases:
       default: v1.52.2 # github-releases:golangci/golangci-lint
       type: string
     goveralls_version:
-      default: v0.0.11 # github-releases:mattn/goveralls
+      default: v0.0.12 # github-releases:mattn/goveralls
       type: string
   - &golang
     - image: golang
