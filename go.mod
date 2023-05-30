@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/pelletier/go-toml v1.9.5
-	github.com/stretchr/testify v1.8.3
+	github.com/stretchr/testify v1.8.4
 )
 
 require (
