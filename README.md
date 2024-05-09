@@ -50,7 +50,7 @@ docker run --rm --privileged \
   -v $PWD:/go/src/github.com/drpsychick/toml_update \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -w /go/src/github.com/drpsychick/toml_update \
-  goreleaser/goreleaser --snapshot --skip-publish --rm-dist
+  goreleaser/goreleaser --snapshot --skip=publish --clean
 ```
 
 ### Release
@@ -63,5 +63,5 @@ docker run --rm --privileged \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -w /go/src/github.com/drpsychick/toml_update \
   -e GITHUB_TOKEN=XXX \
-  goreleaser/goreleaser release --rm-dist
+  goreleaser/goreleaser release --clean
 ```
