@@ -4,7 +4,7 @@ version: 2.1
 aliases:
   - &parameters
     golangci-lint_version:
-      default: v1.62.0 # github-releases:golangci/golangci-lint
+      default: v1.63.4 # github-releases:golangci/golangci-lint
       type: string
     goveralls_version:
       default: v0.0.12 # github-releases:mattn/goveralls
