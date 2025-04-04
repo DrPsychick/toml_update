@@ -18,8 +18,8 @@ func TestNoEnv(t *testing.T) {
 
 func TestEmptyEnv(t *testing.T) {
 	os.Clearenv()
-	os.Setenv("PFX_Test", "")
-	os.Setenv("PFX_Test2", "foo")
+	os.Setenv("PFX_Test", "")     //nolint:errcheck
+	os.Setenv("PFX_Test2", "foo") //nolint:errcheck
 
 	got := getEnv("PFX")
 	assert.Len(t, got, 0, "Environment variables must be skipped")
@@ -30,8 +30,8 @@ func TestEmptyEnv(t *testing.T) {
 
 func TestSimpleEnv(t *testing.T) {
 	os.Clearenv()
-	os.Setenv("PFX_Test", "foo.bar=bar")
-	os.Setenv("PFX_Test2", "bar=")
+	os.Setenv("PFX_Test", "foo.bar=bar") //nolint:errcheck
+	os.Setenv("PFX_Test2", "bar=")       //nolint:errcheck
 
 	got := getEnv("PFX")
 
@@ -42,7 +42,7 @@ func TestSimpleEnv(t *testing.T) {
 
 func TestListEnv(t *testing.T) {
 	os.Clearenv()
-	os.Setenv("PFX_TEST", "foo=[\"bar\", \"foo\"]")
+	os.Setenv("PFX_TEST", "foo=[\"bar\", \"foo\"]") //nolint:errcheck
 
 	got := getEnv("PFX")
 
@@ -52,7 +52,7 @@ func TestListEnv(t *testing.T) {
 
 func TestIntEnv(t *testing.T) {
 	os.Clearenv()
-	os.Setenv("PFX_Test", "foo=\"1\"")
+	os.Setenv("PFX_Test", "foo=\"1\"") //nolint:errcheck
 
 	got := getEnv("PFX")
 
@@ -107,7 +107,7 @@ func TestConfNoEnv(t *testing.T) {
 
 func TestConfEmptySection(t *testing.T) {
 	os.Clearenv()
-	os.Setenv("PFX_Test", "foo.bar=#no config")
+	os.Setenv("PFX_Test", "foo.bar=#no config") //nolint:errcheck
 
 	config := []byte("\n[section]\n  key = \"value\"\n")
 	got, err := updateConfigFromEnv(config, "PFX")
@@ -119,7 +119,7 @@ func TestConfEmptySection(t *testing.T) {
 
 func TestUpdateConf(t *testing.T) {
 	os.Clearenv()
-	os.Setenv("PFX_Test", "section.key=value")
+	os.Setenv("PFX_Test", "section.key=value") //nolint:errcheck
 	config := []byte("\n[section]\n  key = \"value\"\n")
 
 	got, err := updateConfigFromEnv(config, "PFX")
@@ -130,11 +130,11 @@ func TestUpdateConf(t *testing.T) {
 
 func TestComplexConfig(t *testing.T) {
 	os.Clearenv()
-	os.Setenv("PFX_Test0", "section.comment=\"#value\"")
-	os.Setenv("PFX_Test1", "section.integer=1")
-	os.Setenv("PFX_Test2", "section.list=[\"foo\",\"bar\"]")
-	os.Setenv("PFX_Test3", "section.float=\"1.337\"")
-	os.Setenv("PFX_Test3", "section.bool=\"false\"")
+	os.Setenv("PFX_Test0", "section.comment=\"#value\"")     //nolint:errcheck
+	os.Setenv("PFX_Test1", "section.integer=1")              //nolint:errcheck
+	os.Setenv("PFX_Test2", "section.list=[\"foo\",\"bar\"]") //nolint:errcheck
+	os.Setenv("PFX_Test3", "section.float=\"1.337\"")        //nolint:errcheck
+	os.Setenv("PFX_Test3", "section.bool=\"false\"")         //nolint:errcheck
 
 	config := []byte("\n[section]\n  bool = false\n  # comment = \"value\"\n  float = 1.337\n  integer = 1\n  list = [\"foo\", \"bar\"]\n")
 

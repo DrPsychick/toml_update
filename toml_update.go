@@ -62,7 +62,7 @@ func updateConfigFromEnv(conf []byte, pfx string) ([]byte, error) {
 
 	envs := getEnv(pfx)
 	if len(envs) == 0 {
-		return nil, fmt.Errorf("No environment variables with prefix %s", pfx)
+		return nil, fmt.Errorf("no environment variables with prefix %s", pfx)
 	}
 
 	for k, v := range envs {
